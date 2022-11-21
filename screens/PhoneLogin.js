@@ -6,8 +6,10 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -20,9 +22,16 @@ import {
 } from "@expo-google-fonts/raleway";
 import { CountryPicker } from "react-native-country-codes-picker";
 import { LinearGradient } from "expo-linear-gradient";
+import { PhoneAuthProvider } from "firebase/auth";
+import { authentication, firebaseConfig } from "../firebase/firebase";
+import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 
 const PhoneLogin = () => {
+  const recaptchaVerifierRef = useRef()
   const [show, setShow] = useState(false);
+  const [loading,setLoading] = useState(false)
+  const [verificationiDD,setVerificationId] = useState()
+  const [phoneNumber,setPhoneNumber] = useState()
   const [countryCode, setCountryCode] = useState("+91");
   const navigation = useNavigation();
   let [fontsLoaded] = useFonts({
@@ -33,6 +42,22 @@ const PhoneLogin = () => {
   });
   if (!fontsLoaded) {
     return null;
+  }
+  const handleRequestOtp = async()=>{
+    try{
+      if(phoneNumber?.length === 10){
+        setLoading(true)
+        const phoneAndCode = countryCode + phoneNumber
+        const PhoneProvider = new PhoneAuthProvider(authentication)
+        const VerificationId = await PhoneProvider.verifyPhoneNumber(phoneAndCode,recaptchaVerifierRef.current)
+        setVerificationId(VerificationId)
+        navigation.navigate("Verification",{VerificationId})
+        setLoading(false)
+      }
+    }catch{(error)=>{
+      setLoading(false)
+      Alert.alert("Something Went Wrong, Please Try Again Later")
+    }}
   }
   return (
     <ScrollView
@@ -45,7 +70,7 @@ const PhoneLogin = () => {
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             className="border flex w-20 items-center p-3 border-gray-400 rounded-full"
-          >
+            >
             <AntDesign name="arrowleft" size={24} color={"black"} />
           </TouchableOpacity>
         </View>
@@ -53,13 +78,13 @@ const PhoneLogin = () => {
           <Text
             style={{ fontFamily: "Raleway_800ExtraBold" }}
             className="text-3xl"
-          >
+            >
             Welcome to GroFast!
           </Text>
           <Text
             style={{ fontFamily: "Raleway_700Bold" }}
             className="pt-2 text-gray-400"
-          >
+            >
             Insert your phone number to continue
           </Text>
         </View>
@@ -67,7 +92,7 @@ const PhoneLogin = () => {
           <TouchableOpacity
             onPress={() => setShow(true)}
             className="px-5 h-14 flex flex-row items-center justify-center w-24 bg-gray-100 rounded-l-full"
-          >
+            >
             <Text style={{ fontFamily: "Raleway_500Medium" }} className="mr-1">
               {countryCode}{" "}
             </Text>
@@ -75,27 +100,33 @@ const PhoneLogin = () => {
           </TouchableOpacity>
           <TextInput
             textContentType="telephoneNumber"
+            autoComplete="tel"
             style={{ fontFamily: "Raleway_500Medium" }}
             keyboardType="numeric"
+            maxLength={10}
+            value={phoneNumber}
+            onChangeText={(text)=> setPhoneNumber(text)}
             className="flex-1 px-4 rounded-r-full  h-14 bg-gray-100"
-          />
+            />
+          <FirebaseRecaptchaVerifierModal ref = {recaptchaVerifierRef} firebaseConfig = {firebaseConfig} attemptInvisibleVerification={true} />
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Verification")}
+        {loading ?<View className="mt-10"><ActivityIndicator size={"large"} color="#29B36B" /></View> : <TouchableOpacity
+          onPress={handleRequestOtp}
           activeOpacity={0.6}
-        >
+          >
           <LinearGradient
             colors={["#29B36B", "#30C554"]}
             className="mx-10 p-5 flex flex-row justify-center items-center rounded-full mt-10 flex-1"
-          >
+            >
             <Text
               style={{ fontFamily: "Raleway_800ExtraBold" }}
               className="text-white text-sm"
-            >
+              >
               Request OTP
+             
             </Text>
           </LinearGradient>
-        </TouchableOpacity>
+        </TouchableOpacity>}
         <CountryPicker
           onBackdropPress={() => setShow(false)}
           show={show}

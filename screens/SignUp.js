@@ -7,6 +7,7 @@ import {
   TextInput,
   Platform,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import {
@@ -19,11 +20,16 @@ import { AntDesign, MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import useAuth from "../hooks/useAuth";
 
 const SignUp = () => {
   const navigation = useNavigation();
   const [isPaaswordVisible, setIsPasswordVisible] = useState(false);
   const [authenticationType, setAuthenticationType] = useState("SignUp");
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const { signUpWithEmailPassword, loadingContext } = useAuth();
   let [fontsLoaded] = useFonts({
     Raleway_800ExtraBold,
     Raleway_400Regular,
@@ -38,6 +44,9 @@ const SignUp = () => {
     } else {
       setAuthenticationType("SignUp");
     }
+  };
+  const handleSignUp = () => {
+    signUpWithEmailPassword(username, email, password);
   };
   return (
     <ScrollView
@@ -77,9 +86,12 @@ const SignUp = () => {
                 </View>
                 <TextInput
                   keyboardType="ascii-capable"
+                  autoComplete="name"
                   textContentType="name"
                   className="w-full h-16 rounded-3xl px-4"
                   style={{ fontFamily: "Raleway_500Medium" }}
+                  value={username}
+                  onChangeText={(text) => setUsername(text)}
                 />
               </View>
             </View>
@@ -98,8 +110,11 @@ const SignUp = () => {
               <TextInput
                 textContentType="emailAddress"
                 keyboardType="email-address"
+                autoComplete="email"
                 className="w-full h-16 rounded-3xl mt-2 px-4 "
                 style={{ fontFamily: "Raleway_500Medium" }}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
               />
             </View>
           </View>
@@ -116,9 +131,12 @@ const SignUp = () => {
               </View>
               <TextInput
                 textContentType="password"
+                autoComplete="password"
                 secureTextEntry={isPaaswordVisible ? false : true}
                 className="w-full flex rounded-3xl mt-2 px-4"
                 style={{ fontFamily: "Raleway_500Medium" }}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
               />
               <TouchableOpacity
                 onPress={() => setIsPasswordVisible(!isPaaswordVisible)}
@@ -133,19 +151,25 @@ const SignUp = () => {
             </View>
           </View>
         </View>
-        <TouchableOpacity activeOpacity={0.6}>
-          <LinearGradient
-            colors={["#29B36B", "#30C554"]}
-            className="mx-10 p-5 flex items-center rounded-full mt-10 flex-1"
-          >
-            <Text
-              style={{ fontFamily: "Raleway_800ExtraBold" }}
-              className="text-white text-sm"
+        {loadingContext ? (
+          <View className="mt-10">
+            <ActivityIndicator size={"large"} color="#29B36B" />
+          </View>
+        ) : (
+          <TouchableOpacity onPress={handleSignUp} activeOpacity={0.6}>
+            <LinearGradient
+              colors={["#29B36B", "#30C554"]}
+              className="mx-10 p-5 flex items-center rounded-full mt-10 flex-1"
             >
-              {authenticationType !== "SignUp" ? "Sign Up" : "Sign In"}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+              <Text
+                style={{ fontFamily: "Raleway_800ExtraBold" }}
+                className="text-white text-sm"
+              >
+                {authenticationType !== "SignUp" ? "Sign Up" : "Sign In"}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
 
         <View className="mt-8">
           <Text

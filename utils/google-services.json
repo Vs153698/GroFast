@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "572963731489",
+    "project_id": "grofast-e2a20",
+    "storage_bucket": "grofast-e2a20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572963731489:android:3bd6831fc747274ab44b60",
+        "android_client_info": {
+          "package_name": "com.grofast.grofast"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572963731489-0km2nu2um8h1gqkoj7sd8smal4dis6in.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaQ5IHQyGNG2fpUU-v8fHAbg41auSQpkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572963731489-0km2nu2um8h1gqkoj7sd8smal4dis6in.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
