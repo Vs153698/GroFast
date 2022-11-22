@@ -8,13 +8,6 @@ import {
 } from "react-native";
 import React from "react";
 import {
-  useFonts,
-  Raleway_400Regular,
-  Raleway_500Medium,
-  Raleway_800ExtraBold,
-  Raleway_700Bold,
-} from "@expo-google-fonts/raleway";
-import {
   AntDesign,
   Entypo,
   FontAwesome,
@@ -25,20 +18,13 @@ import useAuth from "../hooks/useAuth";
 import SearchBar from "react-native-dynamic-search-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import PromotionCard from "../components/Cards/PromotionCard";
+import Categories from "../components/Cards/Categories";
+import CutomSlider from "../components/Cards/CutomSlider";
 
 const Home = () => {
   const { logout } = useAuth();
-  let [fontsLoaded] = useFonts({
-    Raleway_800ExtraBold,
-    Raleway_400Regular,
-    Raleway_500Medium,
-    Raleway_700Bold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
-    <ScrollView className="bg-white flex-1">
+    <ScrollView showsVerticalScrollIndicator={false} className="bg-white flex-1">
       <View className="mx-5 mt-14">
         <View className="flex flex-row justify-between items-center">
           <TouchableOpacity onPress={logout} activeOpacity={0.6}>
@@ -111,7 +97,11 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           className="w-full mt-4"
         >
-          <PromotionCard image={"https://wallpapercave.com/wp/wp3152332.jpg"}>
+          <PromotionCard
+            image={
+              "https://thumbs.dreamstime.com/b/shopping-paper-bag-different-groceries-light-blue-background-flat-lay-space-text-156220126.jpg"
+            }
+          >
             <Text
               style={{ fontFamily: "Raleway_800ExtraBold" }}
               className="text-[#1c3126] text-2xl"
@@ -130,21 +120,25 @@ const Home = () => {
             >
               40%
             </Text>
-            <TouchableOpacity  activeOpacity={0.6}>
-            <LinearGradient
-              colors={["#29B36B", "#30C554"]}
-              className="h-10 w-28 flex items-center justify-center rounded-full mt-3 pb-1"
-            >
-              <Text
-                style={{ fontFamily: "Raleway_800ExtraBold" }}
-                className="text-white text-sm"
+            <TouchableOpacity activeOpacity={0.6}>
+              <LinearGradient
+                colors={["#29B36B", "#30C554"]}
+                className="h-10 w-32 flex items-center justify-center rounded-full mt-3 pb-1"
               >
-                Claim Now
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
+                <Text
+                  style={{ fontFamily: "Raleway_800ExtraBold" }}
+                  className="text-white text-sm"
+                >
+                  Claim Now
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </PromotionCard>
-          <PromotionCard image={"https://wallpapercave.com/wp/wp3152261.jpg"}>
+          <PromotionCard
+            image={
+              "https://cdn.breadfast.com/wp-content/uploads/2021/12/shopping-mistakes.jpg"
+            }
+          >
             <Text
               style={{ fontFamily: "Raleway_800ExtraBold" }}
               className="text-[#1c3126] text-2xl"
@@ -163,21 +157,25 @@ const Home = () => {
             >
               50%
             </Text>
-            <TouchableOpacity  activeOpacity={0.6}>
-            <LinearGradient
-              colors={["#29B36B", "#30C554"]}
-              className="h-10 w-28 flex items-center justify-center rounded-full mt-3 pb-1"
-            >
-              <Text
-                style={{ fontFamily: "Raleway_800ExtraBold" }}
-                className="text-white text-sm"
+            <TouchableOpacity activeOpacity={0.6}>
+              <LinearGradient
+                colors={["#29B36B", "#30C554"]}
+                className="h-10 w-32 flex items-center justify-center rounded-full mt-3 pb-1"
               >
-                Play Now
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
+                <Text
+                  style={{ fontFamily: "Raleway_800ExtraBold" }}
+                  className="text-white text-sm"
+                >
+                  Play Now
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </PromotionCard>
-          <PromotionCard image={"https://wallpapercave.com/wp/wp3152291.jpg"}>
+          <PromotionCard
+            image={
+              "https://www.placer.ai/wp-content/uploads/2022/10/korger-albertsons-merger-scaled.jpg"
+            }
+          >
             <Text
               style={{ fontFamily: "Raleway_800ExtraBold" }}
               className="text-[#1c3126] text-2xl"
@@ -196,21 +194,27 @@ const Home = () => {
             >
               30%
             </Text>
-            <TouchableOpacity  activeOpacity={0.6}>
-            <LinearGradient
-              colors={["#29B36B", "#30C554"]}
-              className="h-10 w-28 flex items-center justify-center rounded-full mt-3 pb-1"
-            >
-              <Text
-                style={{ fontFamily: "Raleway_800ExtraBold" }}
-                className="text-white text-sm"
+            <TouchableOpacity activeOpacity={0.6}>
+              <LinearGradient
+                colors={["#29B36B", "#30C554"]}
+                className="h-10 w-32 flex-row flex items-center justify-center rounded-full mt-3 pb-1"
               >
-                Celebrate Now
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
+                <Text
+                  style={{ fontFamily: "Raleway_800ExtraBold" }}
+                  className="text-white text-sm"
+                >
+                  Celebrate Now
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </PromotionCard>
         </ScrollView>
+        <View className="mt-6">
+          <Categories />
+        </View>
+        <View className="mt-6">
+          <CutomSlider />
+        </View>
       </View>
     </ScrollView>
   );
