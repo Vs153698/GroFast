@@ -5,12 +5,12 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const CustomSliderCard = ({image,title,price}) => {
   return (
-    <View className="h-64 w-44 relative rounded-3xl mr-3 bg-gray-100">
+    <View className={` shadow-2xl h-56 w-44 relative rounded-3xl mr-3 ${title === "Mango" && "ml-5"} bg-green-50`}>
       <View className="items-center justify-center mt-8">
         <Image
           source={image}
           resizeMode="cover"
-          className="h-32 w-32"
+          className="h-20 w-20"
         />
       </View>
       <TouchableOpacity activeOpacity={0.4} className="absolute top-3 right-3">
