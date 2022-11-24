@@ -5,7 +5,7 @@ import CategoryCard from "./CategoryCard";
 const Categories = () => {
   return (
     <View>
-      <View className="flex flex-row justify-between items-center">
+      <View className="flex flex-row justify-between mx-5 items-center">
         <Text
           style={{ fontFamily: "Raleway_800ExtraBold" }}
           className="text-2xl text-[#1c3126]"

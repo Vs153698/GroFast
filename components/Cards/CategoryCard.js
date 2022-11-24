@@ -3,9 +3,9 @@ import React from "react";
 
 const CategoryCard = ({ image, color, title }) => {
   return (
-    <TouchableOpacity activeOpacity={0.6}>
+    <TouchableOpacity activeOpacity={0.6} className="">
       <View
-        className={`w-20 h-20 rounded-3xl mr-2 flex justify-center items-center ${color}`}
+        className={`w-20 h-20 rounded-3xl ml-3 ${title==="Fruits" && "ml-6"} ${title==="Cheese" && "mr-3"} flex justify-center items-center ${color}`}
       >
         <Image
           source={image}
@@ -15,7 +15,7 @@ const CategoryCard = ({ image, color, title }) => {
       </View>
       <Text
         style={{ fontFamily: "Raleway_500Medium" }}
-        className="text-center -ml-2  text-gray-400"
+        className="text-center ml-2  text-gray-400"
       >
         {title}
       </Text>

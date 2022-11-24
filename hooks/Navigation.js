@@ -10,6 +10,8 @@ import Verification from "../screens/Verification";
 import Home from "../screens/Home";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import useAuth from "./useAuth";
+import PromotionPage from "../screens/PromotionPage";
+import Notification from "../screens/Notification";
 
 const RootNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -48,6 +50,16 @@ const RootNavigation = () => {
                 name="Home"
                 options={{ headerShown: false }}
                 component={Home}
+              />
+              <Stack.Screen
+                name="PromotionPage"
+                options={{ headerShown: false }}
+                component={PromotionPage}
+              />
+              <Stack.Screen
+                name="Notification"
+                options={{ headerShown: false }}
+                component={Notification}
               />
             </Stack.Group>
           )}
