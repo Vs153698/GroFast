@@ -12,7 +12,8 @@ import { useEffect, useRef, useState } from "react";
 import { addNotificationReceivedListener, addNotificationResponseReceivedListener, AndroidImportance, getExpoPushTokenAsync, getPermissionsAsync, removeNotificationSubscription, setNotificationChannelAsync, setNotificationHandler } from "expo-notifications";
 import { async } from "@firebase/util";
 import { isDevice } from "expo-device";
-import { Platform } from "react-native";
+import { BackHandler, Platform } from "react-native";
+import socket from "./hooks/Socket";
 
 setNotificationHandler({
   handleNotification: async()=>({
@@ -67,8 +68,18 @@ const registerForPushNotificationsAsync = async()=>{
 export default function App() {
   const [pushToken,setPushToken] = useState("")
   const [notification,setNotification] = useState(false)
+  const [localAuth,setLocalAuth] = useState(false)
   const notificationListener = useRef()
   const responseListener = useRef()
+  useEffect(() => {
+    
+      socket.on("connection",(data)=>{
+        console.log("Socket.io is connected now",)
+      })
+    
+
+  }, [socket])
+  
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setPushToken(token))
     notificationListener.current = addNotificationReceivedListener(notification=>{
@@ -85,8 +96,12 @@ export default function App() {
   
   useEffect(() => {
     const auth = async()=>{
-      const authResult = await authenticateAsync({promptMessage:"Confirm to unlock",cancelLabel:"Cancel Authentication",requireConfirmation:false})
+      const authResult = await authenticateAsync({disableDeviceFallback:true,promptMessage:"Confirm to unlock",cancelLabel:"Cancel Authentication",requireConfirmation:false})
       console.log("authResult is ",authResult)
+      if(authResult?.success === false){
+        return BackHandler.exitApp()
+      }
+      setLocalAuth(authResult?.success)
       setTimeout(() => {
         sendPushNotification(pushToken)
       }, 5000);
@@ -105,7 +120,7 @@ export default function App() {
   }
   return (
     <AuthProvider>
-      <RootNavigation />
+      {localAuth && <RootNavigation />}
     </AuthProvider>
   );
 }
