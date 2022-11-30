@@ -12,19 +12,25 @@ const socketIo = require("socket.io")(http,{
 })
 app.use(cors())
 
-
+const generateId = () => Math.random().toString(36).substring(2,10)
+socketIo.on("connection",(socket)=>{
+    console.log(`🌜: ${socket.id} user just connected`)
+    socket.on("disconnect",()=>{
+        socket.disconnect()
+        console.log("🔥: A user disconnected")
+    })
+    socket.on("sendNotification",({message})=>{
+        console.log("response for message",message)
+        const newMessage = {
+            id: generateId(),
+            text:message,
+            addText:"Hello world"
+        }
+        socket.emit('ReceivedNotification',newMessage)
+    })
+})
 app.get("/api",(req,res)=>{
     console.log("hello")
-    socketIo.on("connection",(socket)=>{
-        console.log(`🌜: ${socket.id} user just connected`)
-        socket.on("disconnect",()=>{
-            socket.disconnect()
-            console.log("🔥: A user disconnected")
-        })
-        socket.on("sendNotification",({message})=>{
-            socket.emit('response',message)
-        })
-    })
     res.json({data:"Hello world"})
 })
 

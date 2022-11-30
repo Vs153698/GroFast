@@ -2,6 +2,7 @@ import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import { globalStyles } from "../../utils/GlobalStyles";
 
 const PromotionCard = ({
   children,
@@ -16,7 +17,8 @@ const PromotionCard = ({
   const navigation = useNavigation()
   return (
     <View
-      className={`h-44 w-80 rounded-3xl ml-3 ${id === 1 && "ml-6"} ${
+    style={globalStyles.backgroundShadow}
+      className={`h-44 w-80 mb-3 rounded-3xl bg-white ml-3 ${id === 1 && "ml-6"} ${
         id === 3 && "mr-3"
       }  flex-1 ${classes}`}
     >
@@ -25,8 +27,8 @@ const PromotionCard = ({
           uri: image,
         }}
         resizeMode="cover"
-        imageStyle={{ borderRadius: 35, opacity: 0.8 }}
-        className="flex-1 justify-center px-4"
+        imageStyle={{ borderRadius: 24, opacity: 0.8 }}
+        className="flex-1 h-44 w-80  justify-center px-4"
       >
         <Text
           style={{ fontFamily: "Raleway_800ExtraBold" }}

@@ -28,6 +28,7 @@ import SafeAreaView from "react-native-safe-area-view";
 import BottomNavigation from "../components/BottomNavigation";
 import Footer from "../components/Footer";
 import { useNavigation } from "@react-navigation/native";
+import { globalStyles } from "../utils/GlobalStyles";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -102,6 +103,7 @@ const Home = () => {
                   textInputStyle={{ fontFamily: "Raleway_500Medium" }}
                   placeholder="Search fresh groceries"
                   iconColor="#12345F"
+                  style={globalStyles.backgroundShadow}
                   className="bg-gray-50  h-16 rounded-2xl "
                 />
               </View>

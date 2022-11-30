@@ -6,10 +6,14 @@ import { AntDesign } from "@expo/vector-icons";
 import PromotionCard from "../components/Cards/PromotionCard";
 import { LinearGradient } from "expo-linear-gradient";
 import InsideHeader from "../components/InsideHeader";
+import socket from "../hooks/Socket";
 
 const PromotionPage = ({ route }) => {
   const navigation = useNavigation();
   const { id, title, subtitle, discount,image, actionName } = route.params;
+  const sendMessage = ()=>{
+    socket.emit("sendNotification",{message:"Shop this afternoon and win prizes."})
+  }
   return (
     <SafeAreaProvider>
       <SafeAreaView
@@ -61,7 +65,7 @@ const PromotionPage = ({ route }) => {
         </View>
         </ScrollView>
         <View>
-        <TouchableOpacity onPress={()=>{}} activeOpacity={0.6}>
+        <TouchableOpacity onPress={sendMessage}  activeOpacity={0.6}>
             <LinearGradient
               colors={["#29B36B", "#30C554"]}
               className="mx-10 p-5 flex items-center rounded-full mt-5 mb-2 flex-1"

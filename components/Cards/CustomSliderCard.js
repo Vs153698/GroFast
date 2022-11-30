@@ -2,11 +2,12 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { globalStyles } from "../../utils/GlobalStyles";
 
 const CustomSliderCard = ({image,title,price}) => {
   return (
-    <View className={` shadow-2xl h-56 w-44 relative rounded-3xl mr-3 ${title === "Mango" && "ml-5"} bg-green-50`}>
-      <View className="items-center justify-center mt-8">
+    <View style={globalStyles.backgroundShadow} className={` mb-2 shadow-2xl h-56 w-44 relative rounded-3xl mr-3 ${title === "Mango" && "ml-5"} bg-green-50`}>
+      <View className="items-center justify-center mt-8 ">
         <Image
           source={image}
           resizeMode="cover"
